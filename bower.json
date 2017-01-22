@@ -1,0 +1,46 @@
+{
+  "name": "map-widget",
+  "version": "0.1.0",
+  "main": "dist/map-widget.js",
+  "ignore": [
+    "bower.json",
+    ".bowerrc",
+    ".jshintrc",
+    ".gitignore",
+    "gulpfile.js",
+    "node_modules",
+    "package.json",
+    "components",
+    "src"
+  ],
+  "keywords": [
+    "dashboard",
+    "widget",
+    "adf",
+    "adf-widget",
+    "map",
+    "temperature"
+  ],
+  "description": "Map widget for the angular-dashboard-framework",
+  "dependencies": {
+    "angular-dashboard-framework": ">0.8.0",
+    "openlayers3": "^3.0.0",
+    "ol3": "ol3-bower#^3.18.2"
+  },
+  "devDependencies": {
+    "angular-local-storage": "0.1.5"
+  },
+  "overrides": {
+    "Sortable": {
+      "main": [
+        "Sortable.js",
+        "ng-sortable.js"
+      ]
+    },
+    "bootstrap": {
+      "main": [
+        "dist/css/bootstrap.css"
+      ]
+    }
+  }
+}
