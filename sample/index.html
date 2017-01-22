@@ -50,13 +50,13 @@
        .module('adfWidgetSample', ['adf', 'adf.widget.map', 'LocalStorageModule'])
        .config(function(dashboardProvider, localStorageServiceProvider){
          localStorageServiceProvider.setPrefix('adf.map');
-         dashboardProvider.structure('4-8', {
+         dashboardProvider.structure('3-9', {
             rows: [{
               columns: [{
-                styleClass: 'col-md-4',
+                styleClass: 'col-md-3',
                 widgets: []
               }, {
-                styleClass: 'col-md-8',
+                styleClass: 'col-md-9',
                 widgets: []
               }]
             }]
@@ -67,10 +67,10 @@
            model = {
             rows: [{
               columns: [{
-                styleClass: 'col-md-4',
+                styleClass: 'col-md-3',
                 widgets: []
               }, {
-                styleClass: 'col-md-8',
+                styleClass: 'col-md-9',
                 widgets: [{
                   type: 'map',
                   title: 'map',

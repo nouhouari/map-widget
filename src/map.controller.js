@@ -5,9 +5,12 @@ angular.module('adf.widget.map')
   .controller('mapController', mapController);
 
 function mapController($scope, data, config) {
-  this.data = data;
+  $scope.clusters = data;
+
+  console.log(data);
 
 
+  //Set the map center and projection
   $scope.center = [0, 0];
   $scope.centerCoord = ol.proj.transform($scope.center, 'EPSG:4326', 'EPSG:3857');
 
@@ -17,19 +20,17 @@ function mapController($scope, data, config) {
     $scope.centerCoord = ol.proj.transform($scope.center, 'EPSG:4326', 'EPSG:3857');
   }
 
- var zoom = 4;
- if(null == config.zoom){
-   
- }
+  //Default zoom level
+  var zoom = 4;
+  if (null == config.zoom) {
 
-  var divMap = document.getElementById('map');
-
-  console.log("map  centerCoord : " + $scope.centerCoord);
-  console.log("Init" + ol);
-  console.log(config.center);
+  }
 
   // Create Map instance
   $scope.map = new ol.Map({
+    controls: ol.control.defaults().extend([
+      new ol.control.FullScreen()
+    ]),
     layers: [
       new ol.layer.Tile({
         source: new ol.source.OSM()
@@ -42,11 +43,16 @@ function mapController($scope, data, config) {
     })
   });
 
+  // Set center and Zoom from configuration values
   $scope.map.getView().setCenter($scope.centerCoord);
   $scope.map.getView().setZoom(config.zoom);
 
-
- 
+  //Add cluster layer
+  if (null != $scope.clusters) {
+    console.log("Add layer.");
+    console.log("$scope.clusters.visible : " + $scope.clusters.getVisible());
+    $scope.map.addLayer($scope.clusters);
+  }
 
 
 }

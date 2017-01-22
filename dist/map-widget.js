@@ -1,3 +1,38 @@
+(function(window, undefined) {'use strict';
+
+
+RegisterWidget.$inject = ["dashboardProvider"];
+mapService.$inject = ["$q", "$http", "$sce", "argument1", "argument2"];
+mapController.$inject = ["$scope", "data", "config"];
+angular.module('adf.widget.map', ['adf.provider'])
+  .value('argument1', 'value arg1')
+  .value('argument2', 'value arg2')
+  .config(RegisterWidget);
+
+function RegisterWidget(dashboardProvider) {
+  dashboardProvider
+    .widget('map', {
+      title: 'map',
+      description: 'Display the current temperature of a city',
+      templateUrl: '{widgetsPath}/map/src/view.html',
+      controller: 'mapController',
+      controllerAs: 'vm',
+      reload: true,
+      resolve: {
+        data: ["mapService", "config", function (mapService, config) {
+          if (config.location) {
+            return mapService.get(config.location);
+          }
+        }]
+      },
+      edit: {
+        templateUrl: '{widgetsPath}/map/src/edit.html'
+      }
+    });
+}
+
+angular.module('adf.widget.map').run(['$templateCache', function($templateCache) {$templateCache.put('{widgetsPath}/map/src/edit.html','<form role=form><div class=form-group><label for=location>Location</label> <input type=location class=form-control id=location ng-model=config.location placeholder="Enter location"> <label for=center>Center</label> <input type=number class=form-control id=center ng-model=config.center.lat placeholder=Latitude> <input type=number class=form-control id=center ng-model=config.center.lon placeholder=Longitude> <label for=zoom>Zoom</label> <input type=number class=form-control id=zoom ng-model=config.zoom placeholder=Zoom></div></form>');
+$templateCache.put('{widgetsPath}/map/src/view.html','<div id=map class=map></div>');}]);
 /*
  * The MIT License
  *
@@ -22,7 +57,7 @@
  * SOFTWARE.
  */
 
-'use strict';
+
 
 angular.module('adf.widget.map')
   .service('mapService', mapService);
@@ -167,3 +202,63 @@ function mapService($q, $http, $sce, argument1, argument2) {
     get: get
   };
 }
+
+
+
+
+angular.module('adf.widget.map')
+  .controller('mapController', mapController);
+
+function mapController($scope, data, config) {
+  $scope.clusters = data;
+
+  console.log(data);
+
+
+  //Set the map center and projection
+  $scope.center = [0, 0];
+  $scope.centerCoord = ol.proj.transform($scope.center, 'EPSG:4326', 'EPSG:3857');
+
+  if (null != config.center) {
+    //Map center 
+    $scope.center = [config.center.lon, config.center.lat];
+    $scope.centerCoord = ol.proj.transform($scope.center, 'EPSG:4326', 'EPSG:3857');
+  }
+
+  //Default zoom level
+  var zoom = 4;
+  if (null == config.zoom) {
+
+  }
+
+  // Create Map instance
+  $scope.map = new ol.Map({
+    controls: ol.control.defaults().extend([
+      new ol.control.FullScreen()
+    ]),
+    layers: [
+      new ol.layer.Tile({
+        source: new ol.source.OSM()
+      })
+    ],
+    target: 'map',
+    view: new ol.View({
+      center: [0, 0],
+      zoom: 2
+    })
+  });
+
+  // Set center and Zoom from configuration values
+  $scope.map.getView().setCenter($scope.centerCoord);
+  $scope.map.getView().setZoom(config.zoom);
+
+  //Add cluster layer
+  if (null != $scope.clusters) {
+    console.log("Add layer.");
+    console.log("$scope.clusters.visible : " + $scope.clusters.getVisible());
+    $scope.map.addLayer($scope.clusters);
+  }
+
+
+}
+})(window);

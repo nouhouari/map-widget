@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('adf.widget.map', ['adf.provider'])
-  .value('mapApiKey', '2decdac859755da9d25281b20f0dc7a1')
-  .value('mapServiceUrl', 'http://api.openmapmap.org/data/2.5/map?units=metric&q=')
+  .value('argument1', 'value arg1')
+  .value('argument2', 'value arg2')
   .config(RegisterWidget);
 
 function RegisterWidget(dashboardProvider) {
