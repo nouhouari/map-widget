@@ -1,6 +1,6 @@
-# adf-widget-weather
+# map-widget
 
-Weather widget for the [angular-dashboard-framework](https://github.com/sdorra/angular-dashboard-framework).
+Map widget for the [angular-dashboard-framework](https://github.com/sdorra/angular-dashboard-framework).
 
 ## Build
 
@@ -20,7 +20,7 @@ npm install
 bower install
 ```
 
-#### Build the adf-widget-weather
+#### Build the map-widget
 
 ```bash
 gulp
@@ -41,17 +41,17 @@ Each goal can be used as parameter for the gulp command.
 Install the widget with bower:
 
 ```bash
-bower install adf-widget-weather --save
+bower install map-widget --save
 ```
 
 Include the script in your index.html and be sure it is loaded after [angular](https://angularjs.org/) and after the [angular-dashboard-framework](https://github.com/sdorra/angular-dashboard-framework).
 
 ```html
-<script type="text/javascript" src="bower_components/adf-widget-weather/dist/adf-widget-weather.min.js"></script>
+<script type="text/javascript" src="bower_components/map-widget/dist/map-widget.min.js"></script>
 ```
 
 Define a dependency for the module:
 
 ```javascript
-angular.module('sample', ['adf', 'adf.widget.weather']);
+angular.module('sample', ['adf', 'adf.widget.map']);
 ```
